@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
     <LangVersion>7.1</LangVersion>
+    <CodeAnalysisRuleSet>..\..\Foundation.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -11,15 +12,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CodeAnalyzers.Episerver" Version="1.0.1" />
     <PackageReference Include="EPiServer.CMS.Core" Version="11.14.1" />
     <PackageReference Include="EPiServer.CMS.UI.Core" Version="11.23.3" />
-    <PackageReference Include="EPiServer.Framework" Version="11.14.1" />
+    <PackageReference Include="EPiServer.Framework" Version="11.14.0" />
     <PackageReference Include="EPiServer.Framework.AspNet" Version="11.14.1" />
     <PackageReference Include="EPiServer.Tracking.Cms" Version="1.13.0" />
     <PackageReference Include="EPiServer.Tracking.Core" Version="1.13.0" />
     <PackageReference Include="EPiServer.Tracking.PageView" Version="1.1.0" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7" />
     <PackageReference Include="EPiServer.Personalization.CMS" Version="1.0.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.7">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.4.16" />
   </ItemGroup>
 
   <ItemGroup>

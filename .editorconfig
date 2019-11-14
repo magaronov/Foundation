@@ -207,3 +207,6 @@ dotnet_naming_style.fields.required_prefix = _
 dotnet_naming_style.fields.required_suffix = 
 dotnet_naming_style.fields.word_separator = 
 dotnet_naming_style.fields.capitalization = camel_case
+
+
+

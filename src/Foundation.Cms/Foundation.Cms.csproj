@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
     <LangVersion>7.1</LangVersion>
+    <CodeAnalysisRuleSet>..\..\Foundation.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
@@ -10,6 +11,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="BVN.404Handler" Version="11.3.0" />
+    <PackageReference Include="CodeAnalyzers.Episerver" Version="1.0.1" />
     <PackageReference Include="EPiBootstrapArea" Version="5.2.1" />
     <PackageReference Include="EPiServer.CMS.AspNet" Version="11.14.1" />
     <PackageReference Include="EPiServer.CMS.Core" Version="11.14.1" />
@@ -25,10 +27,15 @@
     <PackageReference Include="Geta.SEO.Sitemaps" Version="3.1.2" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.7" />
     <PackageReference Include="Microsoft.AspNet.WebApi.WebHost" Version="5.2.6" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.7">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.Net.Http" Version="2.2.29" />
     <PackageReference Include="Microsoft.Owin.Security" Version="4.1.0" />
     <PackageReference Include="Microsoft.Owin.Security.Cookies" Version="4.1.0" />
     <PackageReference Include="Microsoft.Owin.Security.OAuth" Version="4.1.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="16.4.16" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
   </ItemGroup>
   <ItemGroup>
