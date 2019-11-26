@@ -22,6 +22,11 @@ steps:
     restoreSolution: '$(solution)'
     feedsToUse: 'Nuget.config'
 
+- task: Npm@1
+  inputs:
+    command: 'ci'
+    workingDir: 'src/Foundation'
+    
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
