@@ -49,3 +49,8 @@ steps:
   inputs:
     solution: 'src/Foundation/Foundation.csproj'
     msbuildArgs: '/t:Metrics /p:MetricsOutputFile=$(Build.ArtifactStagingDirectory)/Foundation.Metrics.xml'
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
