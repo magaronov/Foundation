@@ -62,6 +62,3 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
     publishLocation: 'Container'
-- task: SonarCloudPublish@1
-  inputs:
-    pollingTimeoutSec: '300'
