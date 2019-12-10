@@ -34,13 +34,12 @@ steps:
     targets: 'default'
     enableCodeCoverage: false
     
-- task: SonarCloudPrepare@1
+- task: Gulp@1
   inputs:
-    SonarCloud: 'Sonar Foundation'
-    organization: 'episerver'
-    scannerMode: 'MSBuild'
-    projectKey: 'epi-foundation'
-    projectName: 'Foundation'
+    gulpFile: 'src/Foundation/gulpfile.js'
+    targets: 'lint'
+    enableCodeCoverage: false
+
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
@@ -52,7 +51,7 @@ steps:
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
-- task: SonarCloudAnalyze@1
+
 - task: VSBuild@1
   inputs:
     solution: 'src/Foundation/Foundation.csproj'
