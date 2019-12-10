@@ -4,15 +4,19 @@
   "description": "foundation",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    
   },
   "author": "Episerver",
   "license": "ISC",
   "devDependencies": {
+    "@episerver/eslint-plugin-cms": "^2.1.0",
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.7.0",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^6.1.0",
     "gulp-changed": "^3.2.0",
     "gulp-concat": "^2.6.1",
+    "gulp-eslint":"^6.0.0",
     "gulp-rename": "^1.4.0",
     "gulp-sass": "^4.0.2",
     "gulp-sourcemaps": "^2.6.5",

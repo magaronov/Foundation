@@ -6,7 +6,8 @@ let gulp = require('gulp'),
     autoprefixer = require('gulp-autoprefixer'),
     sourcemaps = require('gulp-sourcemaps'),
     js_concat = require('gulp-concat'),
-    js_minify = require('gulp-terser');
+    js_minify = require('gulp-terser'),
+    eslint = require('gulp-eslint');
 
 gulp.task('sass', () => {
     return gulp.src('./assets/scss/main.scss')
@@ -27,6 +28,13 @@ gulp.task('js', () => {
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest('./assets/js/'));
 });
+
+gulp.task('lint', gulp.series('js', () => {
+    return gulp.src(['./assets/js/main.min.js'])
+        .pipe(eslint())
+        .pipe(eslint.format());
+        //.pipe(eslint.failAfterError());
+}));
 
 gulp.task('watch', () => {
     gulp.watch('./assets/scss/**/*.scss', gulp.series('sass'));
