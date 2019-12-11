@@ -42,7 +42,7 @@ steps:
 - task: Bash@3
   inputs:
     targetType: 'inline'
-    script: 'echo "##vso[task.uploadsummary].\eslint-html-result.md"'
+    script: 'echo "##vso[task.uploadsummary]eslint-html-result.md"'
 - task: CopyFiles@2
   inputs:
     Contents: 'eslint-html-result.md'
