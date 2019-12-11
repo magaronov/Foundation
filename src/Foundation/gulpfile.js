@@ -33,7 +33,7 @@ gulp.task('lint', gulp.series('js', () => {
     return gulp.src(['./assets/js/main.min.js', './clientresources/scripts/**/*.js', './modules/_protected/**/*.js'])
         .pipe(eslint())
         .pipe(eslint.format())
-        .pipe(eslint.format('visualstudio'));
+        .pipe(eslint.format('markdown'));
         //.pipe(eslint.failAfterError());
 }));
 
