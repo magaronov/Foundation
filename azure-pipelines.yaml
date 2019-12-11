@@ -40,6 +40,11 @@ steps:
     targets: 'lint'
     enableCodeCoverage: false
 
+- task: CopyFiles@2
+  inputs:
+    Contents: 'eslint-html-result.md'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+  
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
