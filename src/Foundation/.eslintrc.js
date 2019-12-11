@@ -14,7 +14,9 @@ module.exports = {
         "notification": "readonly",
         "window": "writable",
         "convertFormData": "writable",
-        "response": "readonly"
+        "response": "readonly",
+        "axios": "readonly",
+        "feather": "readonly"
     },
     "extends": [
         "eslint:recommended",

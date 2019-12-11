@@ -42,4 +42,4 @@ gulp.task('watch', () => {
     gulp.watch('./assets/js/features/**/*.js', gulp.series('js'));
 });
 
-gulp.task('default', gulp.parallel('sass', 'js'));
+gulp.task('default', gulp.parallel('sass', 'lint'));
