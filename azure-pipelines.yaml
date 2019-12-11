@@ -34,11 +34,6 @@ steps:
     targets: 'default'
     enableCodeCoverage: false
     
-- task: Gulp@1
-  inputs:
-    gulpFile: 'src/Foundation/gulpfile.js'
-    targets: 'lint'
-    enableCodeCoverage: false
 - task: CmdLine@2
   inputs:
     script: 'echo ##vso[task.uploadsummary]$(Build.SourcesDirectory)\eslint-html-result.md'
@@ -50,7 +45,7 @@ steps:
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
-    msbuildArgs: '/p:SkipInvalidConfigurations=true'
+    msbuildArgs: '/p:SkipInvalidConfigurations=true /p:RunCodeAnalysis=true'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
