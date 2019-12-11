@@ -41,7 +41,7 @@ steps:
     enableCodeCoverage: false
 - task: CmdLine@2
   inputs:
-    script: 'echo ##vso[task.uploadsummary].\eslint-html-result.md'
+    script: 'echo ##vso[task.uploadsummary]$(Build.SourcesDirectory)\eslint-html-result.md'
 - task: CopyFiles@2
   inputs:
     Contents: 'eslint-html-result.md'
