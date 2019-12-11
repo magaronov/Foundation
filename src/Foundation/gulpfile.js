@@ -6,7 +6,7 @@ let gulp = require('gulp'),
     autoprefixer = require('gulp-autoprefixer'),
     sourcemaps = require('gulp-sourcemaps'),
     js_concat = require('gulp-concat'),
-    js_minify = require('gulp-terser'),
+    fs = require('fs'),
     eslint = require('gulp-eslint');
 
 gulp.task('sass', () => {
@@ -33,7 +33,7 @@ gulp.task('lint', gulp.series('js', () => {
     return gulp.src(['./assets/js/main.min.js', './clientresources/scripts/**/*.js', './modules/_protected/**/*.js'])
         .pipe(eslint())
         .pipe(eslint.format())
-        .pipe(eslint.format('markdown'));
+        .pipe(eslint.format('./node_modules/eslint-formatter-markdown/markdown.js', fs.createWriteStream('../../eslint-html-result.md')));
         //.pipe(eslint.failAfterError());
 }));
 

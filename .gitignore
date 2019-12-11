@@ -88,3 +88,4 @@ src/Foundation.CommerceManager/connectionStrings.config
 src/Foundation.CommerceManager/App_Data/ImportExport/*
 rebuild.cmd
 resetup.cmd
+eslint-html-result.md
