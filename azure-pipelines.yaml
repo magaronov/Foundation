@@ -45,7 +45,7 @@ steps:
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
-    msbuildArgs: '/p:SkipInvalidConfigurations=true /p:RunCodeAnalysis=true'
+    msbuildArgs: '/p:SkipInvalidConfigurations=true'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
