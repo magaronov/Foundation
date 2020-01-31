@@ -5,7 +5,7 @@ using EPiServer.Framework.DataAnnotations;
 using EPiServer.Security;
 using EPiServer.Web.Mvc;
 using EPiServer.Web.Routing;
-using Foundation.Cms;
+using Foundation.Cms.Services;
 using Foundation.Commerce.Customer.Services;
 using Foundation.Commerce.Customer.ViewModels;
 using Foundation.Commerce.Models.Blocks;
@@ -30,7 +30,7 @@ namespace Foundation.Features.Blocks
         private readonly IOrderGroupCalculator _orderGroupCalculator;
         private readonly IContentLoader _contentLoader;
         private readonly PaymentMethodViewModelFactory _paymentMethodViewModelFactory;
-        private readonly CookieService _cookieService;
+        private readonly ICookieService _cookieService;
 
         private const string _KEYWORD = "OrderSearchBlock:Keyword";
         private const string _DATEFROM = "OrderSearchBlock:DateFrom";
@@ -45,7 +45,7 @@ namespace Foundation.Features.Blocks
             IOrderGroupCalculator orderGroupCalculator,
             IContentLoader contentLoader,
             PaymentMethodViewModelFactory paymentMethodViewModelFactory,
-            CookieService cookieService)
+            ICookieService cookieService)
         {
             _addressBookService = addressBookService;
             _customerService = customerService;

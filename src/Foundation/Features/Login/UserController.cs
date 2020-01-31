@@ -2,9 +2,9 @@
 using EPiServer.Core;
 using EPiServer.Framework.Localization;
 using EPiServer.Web.Mvc.Html;
-using Foundation.Attributes;
 using Foundation.Commerce.Customer.Services;
 using Foundation.Demo.Models;
+using Foundation.Infrastructure.Attributes;
 using System.Web.Mvc;
 
 namespace Foundation.Features.Login

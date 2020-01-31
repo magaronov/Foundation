@@ -4,10 +4,9 @@ using EPiServer.Core;
 using EPiServer.Security;
 using EPiServer.Web.Mvc.Html;
 using EPiServer.Web.Routing;
-using Foundation.Cms;
+using Foundation.Cms.Services;
 using Foundation.Commerce.Customer.Services;
 using Foundation.Commerce.Customer.ViewModels;
-using Foundation.Commerce.Markets;
 using Foundation.Commerce.Models.Pages;
 using Foundation.Commerce.Order.Services;
 using Foundation.Commerce.Order.ViewModelFactories;
@@ -33,7 +32,7 @@ namespace Foundation.Features.MyAccount.OrderHistory
         private readonly ICartService _cartService;
         private readonly IOrderGroupFactory _orderGroupFactory;
         private readonly PaymentMethodViewModelFactory _paymentMethodViewModelFactory;
-        private readonly CookieService _cookieService;
+        private readonly ICookieService _cookieService;
 
         private const string _KEYWORD = "OrderHistoryPage:Keyword";
         private const string _DATEFROM = "OrderHistoryPage:DateFrom";
@@ -53,7 +52,7 @@ namespace Foundation.Features.MyAccount.OrderHistory
             IContentLoader contentLoader,
             UrlResolver urlResolver, IOrderGroupFactory orderGroupFactory, ICustomerService customerService,
             PaymentMethodViewModelFactory paymentMethodViewModelFactory,
-            CookieService cookieService) :
+            ICookieService cookieService) :
             base(confirmationService, addressBookService, orderGroupCalculator, urlResolver, customerService)
         {
             _addressBookService = addressBookService;

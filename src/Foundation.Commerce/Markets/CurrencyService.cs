@@ -1,4 +1,4 @@
-﻿using Foundation.Cms;
+﻿using Foundation.Cms.Services;
 using Mediachase.Commerce;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +8,10 @@ namespace Foundation.Commerce.Markets
     public class CurrencyService : ICurrencyService
     {
         private const string CurrencyCookie = "Currency";
-        private readonly CookieService _cookieService;
+        private readonly ICookieService _cookieService;
         private readonly ICurrentMarket _currentMarket;
 
-        public CurrencyService(ICurrentMarket currentMarket, CookieService cookieService)
+        public CurrencyService(ICurrentMarket currentMarket, ICookieService cookieService)
         {
             _currentMarket = currentMarket;
             _cookieService = cookieService;

@@ -1,23 +1,31 @@
-﻿using System;
+﻿using EPiServer.ServiceLocation;
+using System;
 using System.Web;
 
-namespace Foundation.Cms
+namespace Foundation.Cms.Services
 {
-    public class CookieService
+    public class CookieService : ICookieService
     {
+        private readonly ServiceAccessor<HttpContextBase> _httpContextAccessor;
+
+        public CookieService(ServiceAccessor<HttpContextBase> httpContextAccessor)
+        {
+            _httpContextAccessor = httpContextAccessor;
+        }
+
         public virtual string Get(string cookie)
         {
-            if (HttpContext.Current == null)
+            if (_httpContextAccessor() == null)
             {
                 return null;
             }
 
-            return HttpContext.Current.Request.Cookies[cookie]?.Value;
+            return _httpContextAccessor().Request.Cookies[cookie]?.Value;
         }
 
         public virtual void Set(string cookie, string value, bool sessionCookie = false)
         {
-            if (HttpContext.Current == null)
+            if (_httpContextAccessor() == null)
             {
                 return;
             }
@@ -26,7 +34,7 @@ namespace Foundation.Cms
             {
                 Value = value,
                 HttpOnly = true,
-                Secure = HttpContext.Current?.Request?.IsSecureConnection ?? false
+                Secure = _httpContextAccessor().Request?.IsSecureConnection ?? false
             };
 
 
@@ -35,13 +43,13 @@ namespace Foundation.Cms
                 httpCookie.Expires = DateTime.Now.AddYears(1);
             }
 
-            Set(HttpContext.Current.Response.Cookies, httpCookie);
-            HttpContext.Current.Request.Cookies.Set(httpCookie);
+            Set(_httpContextAccessor().Response.Cookies, httpCookie);
+            _httpContextAccessor().Request.Cookies.Set(httpCookie);
         }
 
         public virtual void Remove(string cookie)
         {
-            if (HttpContext.Current == null)
+            if (_httpContextAccessor() == null)
             {
                 return;
             }
@@ -55,8 +63,8 @@ namespace Foundation.Cms
 #endif
             };
 
-            Set(HttpContext.Current.Response.Cookies, httpCookie);
-            HttpContext.Current.Request.Cookies.Set(httpCookie);
+            Set(_httpContextAccessor().Response.Cookies, httpCookie);
+            _httpContextAccessor().Request.Cookies.Set(httpCookie);
         }
 
         private void Set(HttpCookieCollection cookieCollection, HttpCookie cookie) => cookieCollection.Add(cookie);

@@ -6,6 +6,7 @@ using Foundation.Cms;
 using Foundation.Cms.Extensions;
 using Foundation.Cms.Identity;
 using Foundation.Cms.Personalization;
+using Foundation.Cms.Services;
 using Foundation.Commerce.Customer.Services;
 using Foundation.Commerce.Customer.ViewModels;
 using Foundation.Infrastructure.Services;
@@ -30,6 +31,7 @@ namespace Foundation.Features.Api
         private readonly IUrlResolver _urlResolver;
         private readonly ICmsTrackingService _cmsTrackingService;
         private readonly HttpContextBase _httpContextBase;
+        private readonly ITrackingCookieService _trackingCookieService;
 
         public PublicApiController(LocalizationService localizationService,
             IContentLoader contentLoader,
@@ -38,7 +40,8 @@ namespace Foundation.Features.Api
             ICampaignService campaignService,
             IUrlResolver urlResolver,
             ICmsTrackingService cmsTrackingService,
-            HttpContextBase httpContextBase)
+            HttpContextBase httpContextBase, 
+            ITrackingCookieService trackingCookieService)
         {
             _localizationService = localizationService;
             _contentLoader = contentLoader;
@@ -48,21 +51,22 @@ namespace Foundation.Features.Api
             _urlResolver = urlResolver;
             _cmsTrackingService = cmsTrackingService;
             _httpContextBase = httpContextBase;
+            _trackingCookieService = trackingCookieService;
         }
 
         [HttpGet]
         public ActionResult SignOut()
         {
             _customerService.SignOut();
-            TrackingCookieManager.SetTrackingCookie(Guid.NewGuid().ToString());
+            _trackingCookieService.SetTrackingCookie(Guid.NewGuid().ToString());
             return RedirectToAction("Index", new { node = ContentReference.StartPage });
         }
 
         [HttpGet]
-        public ActionResult Login(string userName, string returnUrl)
+        public async Task<ActionResult> Login(string userName, string returnUrl)
         {
             _customerService.SignOut();
-            var user = _customerService.UserManager().FindByEmailAsync(userName).GetAwaiter().GetResult();
+            var user = await _customerService.UserManager().FindByEmailAsync(userName);
             if (user == null)
             {
                 return new EmptyResult();

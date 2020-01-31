@@ -1,6 +1,6 @@
 ﻿using EPiServer.Commerce.Order;
 using EPiServer.Web.Mvc;
-using Foundation.Cms;
+using Foundation.Cms.Services;
 using Foundation.Commerce;
 using Foundation.Commerce.Customer.Services;
 using Foundation.Commerce.Order.Services;
@@ -16,13 +16,17 @@ namespace Foundation.Features.NamedCarts.OrderPadsPage
         private readonly ICustomerService _customerService;
         private readonly ICartService _cartService;
         private readonly IOrganizationService _organizationService;
-        private readonly CookieService _cookieService = new CookieService();
+        private readonly ICookieService _cookieService;
 
-        public OrderPadsPageController(ICartService cartService, ICustomerService customerService, IOrganizationService organizationService)
+        public OrderPadsPageController(ICartService cartService, 
+            ICustomerService customerService,
+            IOrganizationService organizationService,
+            ICookieService cookieService)
         {
             _customerService = customerService;
             _cartService = cartService;
             _organizationService = organizationService;
+            _cookieService = cookieService;
         }
 
         [NavigationAuthorize("Admin,Approver")]

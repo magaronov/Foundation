@@ -1,6 +1,6 @@
 ﻿using EPiServer.Logging;
 using EPiServer.Web.Mvc;
-using Foundation.Cms;
+using Foundation.Cms.Services;
 using Foundation.Commerce;
 using Foundation.Commerce.Customer.Services;
 using Foundation.Commerce.Customer.ViewModels;
@@ -22,14 +22,19 @@ namespace Foundation.Features.MyOrganization.Budgeting
         private readonly IOrganizationService _organizationService;
         private readonly ICurrentMarket _currentMarket;
         private readonly ICustomerService _customerService;
-        private readonly CookieService _cookieService = new CookieService();
+        private readonly ICookieService _cookieService;
 
-        public BudgetingController(IBudgetService budgetService, IOrganizationService organizationService, ICurrentMarket currentMarket, ICustomerService customerService)
+        public BudgetingController(IBudgetService budgetService,
+            IOrganizationService organizationService, 
+            ICurrentMarket currentMarket, 
+            ICustomerService customerService,
+            ICookieService cookieService)
         {
             _budgetService = budgetService;
             _organizationService = organizationService;
             _currentMarket = currentMarket;
             _customerService = customerService;
+            _cookieService = cookieService;
         }
 
         [NavigationAuthorize("Admin,Approver,Purchaser")]

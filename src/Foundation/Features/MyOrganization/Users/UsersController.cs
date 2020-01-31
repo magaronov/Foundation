@@ -4,10 +4,10 @@ using EPiServer.Core;
 using EPiServer.Framework.Localization;
 using EPiServer.Globalization;
 using EPiServer.Web.Mvc;
-using Foundation.Cms;
 using Foundation.Cms.Attributes;
 using Foundation.Cms.Identity;
 using Foundation.Cms.Pages;
+using Foundation.Cms.Services;
 using Foundation.Commerce;
 using Foundation.Commerce.Customer;
 using Foundation.Commerce.Customer.Services;
@@ -37,7 +37,7 @@ namespace Foundation.Features.MyOrganization.Users
         private readonly ApplicationSignInManager<SiteUser> _signInManager;
         private readonly LocalizationService _localizationService;
         private readonly ICommerceSearchService _searchService;
-        private readonly CookieService _cookieService;
+        private readonly ICookieService _cookieService;
 
         public UsersController(
             ICustomerService customerService,
@@ -48,7 +48,7 @@ namespace Foundation.Features.MyOrganization.Users
             IMailService mailService,
             LocalizationService localizationService,
             ICommerceSearchService searchService,
-            CookieService cookieService)
+            ICookieService cookieService)
         {
             _customerService = customerService;
             _organizationService = organizationService;

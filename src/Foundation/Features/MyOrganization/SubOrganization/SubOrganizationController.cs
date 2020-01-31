@@ -2,8 +2,8 @@
 using EPiServer.Core;
 using EPiServer.Web.Mvc;
 using EPiServer.Web.Routing;
-using Foundation.Cms;
 using Foundation.Cms.Attributes;
+using Foundation.Cms.Services;
 using Foundation.Commerce;
 using Foundation.Commerce.Customer.Services;
 using Foundation.Commerce.Customer.ViewModels;
@@ -22,13 +22,17 @@ namespace Foundation.Features.MyOrganization.SubOrganization
         private readonly IContentLoader _contentLoader;
         private readonly IOrganizationService _organizationService;
         private readonly IAddressBookService _addressService;
-        private readonly CookieService _cookieService = new CookieService();
+        private readonly ICookieService _cookieService;
 
-        public SubOrganizationController(IOrganizationService organizationService, IContentLoader contentLoader, IAddressBookService addressService)
+        public SubOrganizationController(IOrganizationService organizationService, 
+            IContentLoader contentLoader, 
+            IAddressBookService addressService, 
+            ICookieService cookieService)
         {
             _organizationService = organizationService;
             _contentLoader = contentLoader;
             _addressService = addressService;
+            _cookieService = cookieService;
         }
 
         public ActionResult Index(SubOrganizationPage currentPage)

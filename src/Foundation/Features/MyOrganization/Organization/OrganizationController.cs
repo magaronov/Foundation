@@ -1,8 +1,8 @@
 ﻿using EPiServer;
 using EPiServer.Core;
 using EPiServer.Web.Mvc;
-using Foundation.Cms;
 using Foundation.Cms.Attributes;
+using Foundation.Cms.Services;
 using Foundation.Commerce;
 using Foundation.Commerce.Customer.Services;
 using Foundation.Commerce.Customer.ViewModels;
@@ -22,14 +22,19 @@ namespace Foundation.Features.MyOrganization.Organization
         private readonly IAddressBookService _addressService;
         private readonly IBudgetService _budgetService;
         private readonly IContentLoader _contentLoader;
-        private readonly CookieService _cookieService = new CookieService();
+        private readonly ICookieService _cookieService;
 
-        public OrganizationController(IOrganizationService organizationService, IAddressBookService addressService, IBudgetService budgetService, IContentLoader contentLoader)
+        public OrganizationController(IOrganizationService organizationService,
+            IAddressBookService addressService,
+            IBudgetService budgetService,
+            IContentLoader contentLoader, 
+            ICookieService cookieService)
         {
             _organizationService = organizationService;
             _addressService = addressService;
             _budgetService = budgetService;
             _contentLoader = contentLoader;
+            _cookieService = cookieService;
         }
 
         public ActionResult Index(OrganizationPage currentPage)

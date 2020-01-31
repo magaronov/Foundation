@@ -11,6 +11,7 @@ using EPiServer.Web.Routing;
 using Foundation.Cms.Display;
 using Foundation.Cms.Identity;
 using Foundation.Cms.ModelBinders;
+using Foundation.Cms.Services;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using System.Web;
@@ -32,7 +33,8 @@ namespace Foundation.Cms
             services.AddTransient<IsInEditModeAccessor>(locator => () => PageEditing.PageIsInEditMode);
             services.AddSingleton<ServiceAccessor<IContentRouteHelper>>(locator => locator.GetInstance<IContentRouteHelper>);
             services.AddTransient<IModelBinderProvider, ModelBinderProvider>();
-            services.AddSingleton<CookieService>();
+            services.AddSingleton<ICookieService, CookieService>();
+            services.AddSingleton<ITrackingCookieService, TrackingCookieService>();
             services.AddSingleton<BlogTagFactory>();
             services.AddTransient<IQuickNavigatorItemProvider, FoundationQuickNavigatorItemProvider>();
             services.AddTransient<IViewTemplateModelRegistrator, ViewTemplateModelRegistrator>();

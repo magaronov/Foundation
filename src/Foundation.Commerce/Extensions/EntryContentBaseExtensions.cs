@@ -7,7 +7,7 @@ using EPiServer.Commerce.SpecializedProperties;
 using EPiServer.Core;
 using EPiServer.ServiceLocation;
 using EPiServer.Web.Routing;
-using Foundation.Cms;
+using Foundation.Cms.Services;
 using Foundation.Commerce.Catalog;
 using Foundation.Commerce.Catalog.ViewModels;
 using Foundation.Commerce.Models.Catalog;
@@ -44,8 +44,8 @@ namespace Foundation.Commerce.Extensions
         private static readonly Lazy<UrlResolver> UrlResolver =
             new Lazy<UrlResolver>(() => ServiceLocator.Current.GetInstance<UrlResolver>());
 
-        private static readonly Lazy<CookieService> CookieService =
-            new Lazy<CookieService>(() => ServiceLocator.Current.GetInstance<CookieService>());
+        private static readonly Lazy<ICookieService> CookieService =
+            new Lazy<ICookieService>(() => ServiceLocator.Current.GetInstance<ICookieService>());
 
         private static readonly Lazy<ICurrentMarket> CurrentMarket =
             new Lazy<ICurrentMarket>(() => ServiceLocator.Current.GetInstance<ICurrentMarket>());

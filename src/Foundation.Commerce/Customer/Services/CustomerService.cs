@@ -2,8 +2,8 @@
 using EPiServer.Cms.UI.AspNetIdentity;
 using EPiServer.Framework.Localization;
 using EPiServer.ServiceLocation;
-using Foundation.Cms;
 using Foundation.Cms.Identity;
+using Foundation.Cms.Services;
 using Foundation.Commerce.Customer.ViewModels;
 using Mediachase.Commerce.Customers;
 using Microsoft.AspNet.Identity;
@@ -20,17 +20,20 @@ namespace Foundation.Commerce.Customer.Services
     {
         private readonly CustomerContext _customerContext;
         private readonly LocalizationService _localizationService;
+        private readonly ITrackingCookieService _trackingCookieService;
 
         public CustomerService(ServiceAccessor<IAuthenticationManager> authenticationManager,
             ServiceAccessor<ApplicationSignInManager<SiteUser>> signinManager,
             ServiceAccessor<ApplicationUserManager<SiteUser>> userManager,
-            LocalizationService localizationService)
+            LocalizationService localizationService, 
+            ITrackingCookieService trackingCookieService)
         {
             _customerContext = CustomerContext.Current;
             AuthenticationManager = authenticationManager;
             SignInManager = signinManager;
             _localizationService = localizationService;
             UserManager = userManager;
+            _trackingCookieService = trackingCookieService;
         }
 
         public virtual ServiceAccessor<ApplicationUserManager<SiteUser>> UserManager { get; }
@@ -264,7 +267,7 @@ namespace Foundation.Commerce.Customer.Services
         public virtual void SignOut()
         {
             AuthenticationManager().SignOut();
-            TrackingCookieManager.SetTrackingCookie(Guid.NewGuid().ToString());
+            _trackingCookieService.SetTrackingCookie(Guid.NewGuid().ToString());
         }
 
         private void SetPreferredAddresses(CustomerContact contact)

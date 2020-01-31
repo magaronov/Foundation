@@ -1,6 +1,6 @@
 ﻿using EPiServer.Core;
 using EPiServer.Globalization;
-using Foundation.Cms;
+using Foundation.Cms.Services;
 using Mediachase.Commerce;
 using System.Collections.Generic;
 using System.Globalization;
@@ -11,11 +11,12 @@ namespace Foundation.Commerce.Markets
     public class LanguageService : IUpdateCurrentLanguage
     {
         private const string LanguageCookie = "Language";
-        private readonly CookieService _cookieService;
+        private readonly ICookieService _cookieService;
         private readonly ICurrentMarket _currentMarket;
         private readonly IUpdateCurrentLanguage _defaultUpdateCurrentLanguage;
 
-        public LanguageService(ICurrentMarket currentMarket, CookieService cookieService,
+        public LanguageService(ICurrentMarket currentMarket, 
+            ICookieService cookieService,
             IUpdateCurrentLanguage defaultUpdateCurrentLanguage)
         {
             _currentMarket = currentMarket;

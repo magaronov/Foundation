@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace Foundation.Attributes
+namespace Foundation.Infrastructure.Attributes
 {
     public class OnlyAnonymousAttribute : AuthorizeAttribute
     {

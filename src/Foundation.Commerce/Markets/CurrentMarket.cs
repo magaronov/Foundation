@@ -1,4 +1,4 @@
-﻿using Foundation.Cms;
+﻿using Foundation.Cms.Services;
 using Foundation.Commerce.Customer.Services;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Core;
@@ -11,12 +11,12 @@ namespace Foundation.Commerce.Markets
     {
         private const string MarketCookie = "MarketId";
         private static readonly MarketId DefaultMarketId = new MarketId("US");
-        private readonly CookieService _cookieService;
+        private readonly ICookieService _cookieService;
         private readonly IMarketService _marketService;
         private readonly ICustomerService _customerService;
 
         public CurrentMarket(IMarketService marketService,
-            CookieService cookieService,
+            ICookieService cookieService,
             ICustomerService customerService)
         {
             _marketService = marketService;

@@ -3,7 +3,7 @@ using EPiServer.Core;
 using EPiServer.Framework.Localization;
 using EPiServer.SpecializedProperties;
 using EPiServer.Web.Routing;
-using Foundation.Cms;
+using Foundation.Cms.Services;
 using Foundation.Commerce;
 using Foundation.Commerce.Customer.Services;
 using Foundation.Commerce.Models.Pages;
@@ -18,7 +18,7 @@ namespace Foundation.Features.MyAccount
     {
         private readonly IContentLoader _contentLoader;
         private readonly LocalizationService _localizationService;
-        private readonly CookieService _cookieService = new CookieService();
+        private readonly ICookieService _cookieService;
         private readonly IOrganizationService _organizationService;
         private readonly ICustomerService _customerService;
         private readonly IPageRouteHelper _pageRouteHelper;
@@ -30,7 +30,7 @@ namespace Foundation.Features.MyAccount
             IOrganizationService organizationService,
             ICustomerService customerService,
             IPageRouteHelper pageRouteHelper,
-            UrlResolver urlResolver)
+            UrlResolver urlResolver, ICookieService cookieService)
         {
             _contentLoader = contentLoader;
             _localizationService = localizationService;
@@ -38,6 +38,7 @@ namespace Foundation.Features.MyAccount
             _customerService = customerService;
             _pageRouteHelper = pageRouteHelper;
             _urlResolver = urlResolver;
+            _cookieService = cookieService;
         }
 
         public ActionResult MyAccountMenu(MyAccountPageType id)
