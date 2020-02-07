@@ -52,11 +52,15 @@ namespace Foundation.Tests.Features.Api
         [Fact]
         public async Task Login_WhenUserDoesExist()
         {
-            var userManager = Setup_UserManagerFindByEmail(new SiteUser
+            var userManager = Setup_UserManager((store) =>
             {
-                Username = "Mark"
-            });
+                var userPasswordStore = store.As<IUserEmailStore<SiteUser>>();
+                userPasswordStore.Setup(x => x.FindByEmailAsync(It.IsAny<string>())).Returns(Task.FromResult(new SiteUser
+                {
+                    Username = "mark"
+                }));
 
+            });
             _customerService.Setup(_ => _.UserManager)
                 .Returns(() => Setup_ServiceAccessors(userManager));
 
@@ -66,7 +70,7 @@ namespace Foundation.Tests.Features.Api
             var result = await _subject.Login("mark", "http://foundation");
 
             
-            result.Should().BeOfType<System.Web.Mvc.RedirectResult>().Which.Url.Should().Be("http://foundation");
+            result.Should().BeOfType<RedirectResult>().Which.Url.Should().Be("http://foundation");
         }
 
         [Fact]
