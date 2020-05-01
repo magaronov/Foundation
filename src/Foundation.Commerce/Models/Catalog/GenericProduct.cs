@@ -4,6 +4,7 @@ using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
 using EPiServer.Shell.ObjectEditing;
+using Foundation.Cms;
 using Foundation.Commerce.Models.EditorDescriptors;
 using System.ComponentModel.DataAnnotations;
 
@@ -15,9 +16,8 @@ namespace Foundation.Commerce.Models.Catalog
         DisplayName = "Generic Product",
         Description = "Generic product supports mutiple products")]
     [ImageUrl("~/assets/icons/cms/pages/cms-icon-page-23.png")]
-    public class GenericProduct : ProductContent, IProductRecommendations
+    public class GenericProduct : ProductContent, IProductRecommendations, IFoundationContent
     {
-
         #region Content
 
         [Searchable]
@@ -72,13 +72,11 @@ namespace Foundation.Commerce.Models.Catalog
 
         [Display(Name = "On sale",
             GroupName = SystemTabNames.Content,
-            Description = "Is on sale?",
             Order = 50)]
         public virtual bool OnSale { get; set; }
 
         [Display(Name = "New arrival",
             GroupName = SystemTabNames.Content,
-            Description = "Is on a new arrival?",
             Order = 55)]
         public virtual bool NewArrival { get; set; }
 
@@ -92,14 +90,12 @@ namespace Foundation.Commerce.Models.Catalog
         [CultureSpecific]
         [Display(Name = "Content area",
             GroupName = SystemTabNames.Content,
-            Description = "This will display the content area.",
             Order = 65)]
         public virtual ContentArea ContentArea { get; set; }
 
         [CultureSpecific]
         [Display(Name = "Associations title",
             GroupName = SystemTabNames.Content,
-            Description = "This is title of the Associations tab.",
             Order = 70)]
         public virtual string AssociationsTitle { get; set; }
 
@@ -140,6 +136,18 @@ namespace Foundation.Commerce.Models.Catalog
         [BackingType(typeof(PropertyString))]
         [Display(Name = "Warranty", GroupName = CommerceTabNames.Manufacturer, Order = 25)]
         public virtual string Warranty { get; set; }
+
+        #endregion
+
+        #region Implement IFoundationContent
+
+        [CultureSpecific]
+        [Display(Name = "Hide site header", GroupName = CmsTabNames.Settings, Order = 100)]
+        public virtual bool HideSiteHeader { get; set; }
+
+        [CultureSpecific]
+        [Display(Name = "Hide site footer", GroupName = CmsTabNames.Settings, Order = 200)]
+        public virtual bool HideSiteFooter { get; set; }
 
         #endregion
 

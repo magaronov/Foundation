@@ -11,14 +11,14 @@ namespace Foundation.Cms.ViewModels.Blocks
             Heading = block.Heading;
             ShowIntroduction = block.IncludeTeaserText;
             ShowPublishDate = block.IncludePublishDate;
-            PaddingStyles = block.PaddingStyles;
+            Padding = block.Padding;
         }
 
         public string Heading { get; set; }
-        public IEnumerable<PageData> Pages { get; set; }
+        public IEnumerable<PageListPreviewViewModel> Pages { get; set; }
         public bool ShowIntroduction { get; set; }
         public bool ShowPublishDate { get; set; }
-        public string PaddingStyles { get; set; }
+        public string Padding { get; set; }
     }
 
     public class PageListPreviewViewModel
@@ -28,6 +28,8 @@ namespace Foundation.Cms.ViewModels.Blocks
         public string PreviewOption { get; set; }
         public bool ShowIntroduction { get; set; }
         public bool ShowPublishDate { get; set; }
+        public bool Flip { get; set; }
+        public bool Highlight { get; set; }
 
         public PageListPreviewViewModel(PageData page, PageListBlock block)
         {

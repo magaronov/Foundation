@@ -100,10 +100,12 @@
 
     megaMenu() {
         $('.navigation__left .navigation__item').each(function (i, e) {
-            var dropdown = $(e).find('.mega-container').first();
-            var top = $(e)[0].getBoundingClientRect();
-            $(dropdown).css('top', top.bottom + 1 + 'px');
-            $(dropdown).css('left', '0px');
+            $(e).mouseenter(function () {
+                var dropdown = $(e).find('.mega-container').first();
+                var top = $(e)[0].getBoundingClientRect();
+                $(dropdown).css('top', top.bottom + 1 + 'px');
+                $(dropdown).css('left', '0px');
+            })
         });
     }
 
@@ -160,7 +162,7 @@
     }
 
     signup(e) {
-        let form = $(e).closest("form");
+        let form = $(e).closest("form")[0];
         let bodyFormData = new FormData();
         bodyFormData.set('Address.Name', $("#RegisterAccountViewModel_Address_Name", form).val());
         bodyFormData.set('Email', $("#RegisterAccountViewModel_Email", form).val());
@@ -172,10 +174,11 @@
         bodyFormData.set('Address.Line2', $("#RegisterAccountViewModel_Address_Line2", form).val());
         bodyFormData.set('Address.City', $("#RegisterAccountViewModel_Address_City", form).val());
         bodyFormData.set('Address.PostalCode', $("#RegisterAccountViewModel_Address_PostalCode", form).val());
-        bodyFormData.set('Address.CountryCode', $('input[name="RegisterAccountViewModel.Address.CountryCode"]:checked', form).val());
+        bodyFormData.set('Address.CountryCode', $('select[name="RegisterAccountViewModel.Address.CountryCode"]', form).val());
         bodyFormData.set('Newsletter', $('#RegisterAccountViewModel_Newsletter', form).is(':checked'));
-        if ($('input[name="RegisterAccountViewModel.Address.CountryRegion.Region"]:checked', form).length > 0) {
-            bodyFormData.set('Address.CountryRegion.Region', $('input[name="RegisterAccountViewModel.Address.CountryRegion.Region"]:checked', form).val());
+
+        if ($('select[name="RegisterAccountViewModel.Address.CountryRegion.Region"]', form).val()) {
+            bodyFormData.set('Address.CountryRegion.Region', $('select[name="RegisterAccountViewModel.Address.CountryRegion.Region"]', form).val());
         } else {
             bodyFormData.set('Address.CountryRegion.Region', $('input[name="RegisterAccountViewModel.Address.CountryRegion.Region"]', form).val());
         }
@@ -185,7 +188,7 @@
         $('.loading-box').show();
         axios({
             method: 'post',
-            url: form[0].action,
+            url: form.action,
             data: bodyFormData,
             config: { headers: { 'Content-Type': 'multipart/form-data' } }
         })
@@ -205,7 +208,9 @@
                 }
             })
             .catch(function (response) {
-                document.getElementById('login-signup-errormessage').innerText = response;
+                var errorPanel = document.getElementById('login-signup-errormessage');
+                errorPanel.innerText = response;
+                errorPanel.style.display = "block";
             })
             .finally(function () {
                 $('.loading-box').hide();

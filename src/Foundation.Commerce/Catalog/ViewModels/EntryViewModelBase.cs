@@ -12,12 +12,10 @@ namespace Foundation.Commerce.Catalog.ViewModels
     {
         protected EntryViewModelBase()
         {
-
         }
 
         protected EntryViewModelBase(T currentContent) : base(currentContent)
         {
-
         }
 
         public Injected<UrlResolver> UrlResolver { get; set; }
@@ -38,5 +36,6 @@ namespace Foundation.Commerce.Catalog.ViewModels
         public List<MediaData> Documents { get; set; }
         public List<KeyValuePair<string, string>> BreadCrumb { get; set; }
         public int MinQuantity { get; set; }
+        public bool HasSaleCode { get; set; }
     }
 }

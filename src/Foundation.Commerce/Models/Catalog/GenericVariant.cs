@@ -4,6 +4,7 @@ using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
 using EPiServer.Shell.ObjectEditing;
+using Foundation.Cms;
 using Foundation.Commerce.Models.EditorDescriptors;
 using System.ComponentModel.DataAnnotations;
 
@@ -11,9 +12,8 @@ namespace Foundation.Commerce.Models.Catalog
 {
     [CatalogContentType(DisplayName = "Generic Variant", GUID = "1aaa2c58-c424-4c37-81b0-77e76d254eb0", Description = "Generic variant supports multiple variation types")]
     [ImageUrl("~/assets/icons/cms/pages/cms-icon-page-23.png")]
-    public class GenericVariant : VariationContent, IProductRecommendations
+    public class GenericVariant : VariationContent, IProductRecommendations, IFoundationContent
     {
-
         [Searchable]
         [Tokenize]
         [IncludeInDefaultSearch]
@@ -37,15 +37,15 @@ namespace Foundation.Commerce.Models.Catalog
         public virtual XhtmlString Description { get; set; }
 
         [CultureSpecific]
-        [Display(Name = "Content area", Description = "This will display the content area.", Order = 20)]
+        [Display(Name = "Content area", Order = 20)]
         public virtual ContentArea ContentArea { get; set; }
 
         [CultureSpecific]
-        [Display(Name = "Associations title", Description = "This is title of the Associations tab.", Order = 25)]
+        [Display(Name = "Associations title", Order = 25)]
         public virtual string AssociationsTitle { get; set; }
 
         [CultureSpecific]
-        [Display(Name = "Show recommendations", Description = "This will determine whether or not to show recommendations.", Order = 30)]
+        [Display(Name = "Show recommendations", Order = 30)]
         public virtual bool ShowRecommendations { get; set; }
 
         [Required]
@@ -90,6 +90,18 @@ namespace Foundation.Commerce.Models.Catalog
 
         #endregion
 
+        #region Implement IFoundationContent
+
+        [CultureSpecific]
+        [Display(Name = "Hide site header", GroupName = CmsTabNames.Settings, Order = 100)]
+        public virtual bool HideSiteHeader { get; set; }
+
+        [CultureSpecific]
+        [Display(Name = "Hide site footer", GroupName = CmsTabNames.Settings, Order = 200)]
+        public virtual bool HideSiteFooter { get; set; }
+
+        #endregion
+
         public override void SetDefaultValues(ContentType contentType)
         {
             base.SetDefaultValues(contentType);
@@ -98,6 +110,5 @@ namespace Foundation.Commerce.Models.Catalog
             VirtualProductRole = "None";
             AssociationsTitle = "You May Also Like";
         }
-
     }
 }

@@ -3,12 +3,13 @@ using EPiServer.Commerce.Catalog.DataAnnotations;
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
+using Foundation.Cms;
 using System.ComponentModel.DataAnnotations;
 
 namespace Foundation.Commerce.Models.Catalog
 {
     [CatalogContentType(DisplayName = "Generic Package", GUID = "7b18ab7a-6344-4879-928e-e1b129d7379c", Description = "")]
-    public class GenericPackage : PackageContent, IProductRecommendations
+    public class GenericPackage : PackageContent, IProductRecommendations, IFoundationContent
     {
         [Searchable]
         [CultureSpecific]
@@ -17,10 +18,10 @@ namespace Foundation.Commerce.Models.Catalog
         [Display(Name = "Description", Order = 5)]
         public virtual XhtmlString Description { get; set; }
 
-        [Display(Name = "On sale", Description = "Is on sale?", Order = 10)]
+        [Display(Name = "On sale", Order = 10)]
         public virtual bool OnSale { get; set; }
 
-        [Display(Name = "New arrival", Description = "Is on a new arroval?", Order = 15)]
+        [Display(Name = "New arrival", Order = 15)]
         public virtual bool NewArrival { get; set; }
 
         [Searchable]
@@ -44,8 +45,20 @@ namespace Foundation.Commerce.Models.Catalog
         public virtual string AssociationsTitle { get; set; }
 
         [CultureSpecific]
-        [Display(Name = "Show recommendations", Description = "This will determine whether or not to show recommendations.", Order = 35)]
+        [Display(Name = "Show recommendations", Order = 35)]
         public virtual bool ShowRecommendations { get; set; }
+
+        #region Implement IFoundationContent
+
+        [CultureSpecific]
+        [Display(Name = "Hide site header", GroupName = CmsTabNames.Settings, Order = 100)]
+        public virtual bool HideSiteHeader { get; set; }
+
+        [CultureSpecific]
+        [Display(Name = "Hide site footer", GroupName = CmsTabNames.Settings, Order = 200)]
+        public virtual bool HideSiteFooter { get; set; }
+
+        #endregion
 
         public override void SetDefaultValues(ContentType contentType)
         {

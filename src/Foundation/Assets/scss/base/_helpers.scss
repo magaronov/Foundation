@@ -1,10 +1,12 @@
-/**
- * Clear inner floats
- */
+/* Clear inner floats */
 .clearfix::after {
     clear: both;
     content: "";
     display: table;
+}
+
+body {
+    overflow-x: hidden;
 }
 
 /* Override bootstrap container for 1200px and up */
@@ -53,7 +55,7 @@ hr {
     border-radius: 3px;
     background-color: $color-darkgrey;
     color: black;
-    font-size: 14px;
+    font-size: $text-font-size;
     padding: 5px 10px 5px 10px;
     margin-bottom: 0;
 }
@@ -148,34 +150,36 @@ ul.none-style-type {
     list-style-type: none;
 }
 
-.search-box {
-    border: 1px solid #ddd;
-    margin-bottom: 12px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.screen-width-block {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
 
-    & > input[type=text] {
-        font-size: 16px;
-        padding: 12px 20px;
-        border: 0;
-        flex-grow: 1;
-
-        &:focus {
-            border: 0;
-            outline: 0;
+    .screen-width-wrapper {
+        @include media-breakpoint-up(xl) {
+            max-width: $container-max-width;
         }
+
+        width: 100%;
+        margin-right: auto;
+        margin-left: auto;
     }
 
-    & > a {
-        height: 100%;
-        padding: 15px 30px;
-        flex-grow: 0;
-        border-left: 1px solid #ddd;
-
-        &:hover {
-            background-color: lightgrey;
-            color: white;
+    .screen-width-container {
+        @include media-breakpoint-up(xl) {
+            max-width: $container-max-width;
         }
+
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
     }
+}
+
+.sticky-top {
+    position: sticky;
+    top: 0;
 }

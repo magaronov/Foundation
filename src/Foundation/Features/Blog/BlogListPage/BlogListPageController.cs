@@ -3,13 +3,14 @@ using EPiServer.Cms.Shell;
 using EPiServer.Core;
 using EPiServer.Core.Html;
 using EPiServer.Filters;
+using EPiServer.Tracking.PageView;
 using EPiServer.Web.Mvc;
 using EPiServer.Web.Routing;
 using Foundation.Cms;
 using Foundation.Cms.Categories;
+using Foundation.Cms.EditorDescriptors;
 using Foundation.Cms.Extensions;
 using Foundation.Cms.Pages;
-using Foundation.Cms.Personalization;
 using Foundation.Cms.ViewModels;
 using Geta.EpiCategories;
 using System;
@@ -18,7 +19,6 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace Foundation.Features.Blog.BlogListPage
@@ -27,28 +27,24 @@ namespace Foundation.Features.Blog.BlogListPage
     {
         private readonly IContentLoader _contentLoader;
         private readonly UrlResolver _urlResolver;
-        private readonly ICmsTrackingService _trackingService;
-        private readonly IPageRouteHelper _pageRouteHelper;
         private readonly BlogTagFactory _blogTagFactory;
 
         public BlogListPageController(IContentLoader contentLoader,
             UrlResolver urlResolver,
-            ICmsTrackingService trackingService,
-            BlogTagFactory blogTagFactory,
-            IPageRouteHelper pageRouteHelper)
+            BlogTagFactory blogTagFactory)
         {
             _contentLoader = contentLoader;
             _urlResolver = urlResolver;
-            _trackingService = trackingService;
             _blogTagFactory = blogTagFactory;
-            _pageRouteHelper = pageRouteHelper;
         }
 
-        public async Task<ActionResult> Index(Cms.Pages.BlogListPage currentPage)
+        [PageViewTracking]
+        public ActionResult Index(Cms.Pages.BlogListPage currentPage)
         {
-            await _trackingService.PageViewed(HttpContext, currentPage);
-            var model = new BlogListPageViewModel(currentPage);
-            model.SubNavigation = GetSubNavigation(currentPage);
+            var model = new BlogListPageViewModel(currentPage)
+            {
+                SubNavigation = GetSubNavigation(currentPage)
+            };
 
             var pageId = currentPage.ContentLink.ID;
             var pagingInfo = new PagingInfo
@@ -56,9 +52,15 @@ namespace Foundation.Features.Blog.BlogListPage
                 PageId = pageId
             };
 
+            if (currentPage.Template == TemplateSelections.Card || currentPage.Template == TemplateSelections.Insight)
+            {
+                pagingInfo.PageSize = 6;
+            }
+
             var viewModel = GetViewModel(currentPage, pagingInfo);
             model.Blogs = viewModel.Blogs;
             model.PagingInfo = pagingInfo;
+
             return View(model);
         }
 
@@ -82,7 +84,6 @@ namespace Foundation.Features.Blog.BlogListPage
             return subNavigation;
         }
 
-
         #region BlogListBlock
         public int PreviewTextLength { get; set; }
 
@@ -102,7 +103,6 @@ namespace Foundation.Features.Blog.BlogListPage
 
         public BlogListPageViewModel GetViewModel(Cms.Pages.BlogListPage currentPage, PagingInfo pagingInfo)
         {
-
             var categoryQuery = Request.QueryString["category"] ?? string.Empty;
             IContent category = null;
             if (categoryQuery != string.Empty)
@@ -136,15 +136,14 @@ namespace Foundation.Features.Blog.BlogListPage
 
             var model = new BlogListPageViewModel(currentPage)
             {
-                Blogs = blogs,
                 Heading = category != null ? "Blog tags for post: " + category.Name : string.Empty,
                 PagingInfo = pagingInfo
             };
-
+            model.Blogs = blogs.Select(x => GetBlogItemPageModel(x, model));
             return model;
         }
 
-        public ActionResult Preview(PageData currentPage, BlogListPageViewModel blogModel)
+        private BlogItemPageModel GetBlogItemPageModel(PageData currentPage, BlogListPageViewModel blogModel)
         {
             var pd = (BlogItemPage)currentPage;
             PreviewTextLength = 200;
@@ -160,10 +159,10 @@ namespace Foundation.Features.Blog.BlogListPage
                 StartPublish = currentPage.StartPublish ?? DateTime.UtcNow
             };
 
-            return PartialView("Preview", model);
+            return model;
         }
 
-        public IEnumerable<BlogItemPageModel.TagItem> GetTags(BlogItemPage currentPage)
+        private IEnumerable<BlogItemPageModel.TagItem> GetTags(BlogItemPage currentPage)
         {
             if (currentPage.Categories != null)
             {
@@ -179,7 +178,7 @@ namespace Foundation.Features.Blog.BlogListPage
             return new List<BlogItemPageModel.TagItem>();
         }
 
-        protected string GetPreviewText(BlogItemPage page)
+        private string GetPreviewText(BlogItemPage page)
         {
             if (PreviewTextLength <= 0)
             {

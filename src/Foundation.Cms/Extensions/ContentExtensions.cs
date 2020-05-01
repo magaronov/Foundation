@@ -3,6 +3,7 @@ using EPiServer.Core;
 using EPiServer.Filters;
 using EPiServer.Framework.Web;
 using EPiServer.ServiceLocation;
+using EPiServer.Web.Routing;
 using Foundation.Cms.Pages;
 using System;
 using System.Collections.Generic;
@@ -98,12 +99,32 @@ namespace Foundation.Cms.Extensions
         {
             if (content is CmsHomePage)
             {
-                return ContentReference.StartPage;
+                return content.ContentLink;
             }
-            
+
             var ancestors = _contentLoader.Value.GetAncestors(content.ContentLink);
             var startPage = ancestors.FirstOrDefault(x => x is CmsHomePage) as CmsHomePage;
             return startPage == null ? ContentReference.StartPage : startPage.ContentLink;
+        }
+
+        /// <summary>
+        /// Helper method to get a URL string for an IContent
+        /// </summary>
+        /// <param name="content">The routable content item to get the URL for.</param>
+        /// <param name="isAbsolute">Whether the full URL including protocol and host should be returned.</param>
+        public static string GetUrl<T>(this T content, bool isAbsolute = false) where T : IContent, ILocale, IRoutable
+        {
+            return content.GetUri(isAbsolute).ToString();
+        }
+
+        /// <summary>
+        /// Helper method to get a Uri for an IContent
+        /// </summary>
+        /// <param name="content">The routable content item to get the URL for.</param>
+        /// <param name="isAbsolute">Whether the full URL including protocol and host should be returned.</param>
+        public static Uri GetUri<T>(this T content, bool isAbsolute = false) where T : IContent, ILocale, IRoutable
+        {
+            return content.ContentLink.GetUri(content.Language.Name, isAbsolute);
         }
     }
 }

@@ -39,16 +39,13 @@
                         else if (typeCart == "shared-cart") cartHelper.SetSharedCartReload(result.data.CountItems);
                         else cartHelper.SetWishlistReload(result.data.CountItems);
 
-                    } else { // if large cart, large shared cart
-
-                        if (typeCart == "large-cart") {
-                            elementClick.parents('.product-tile-list__item').first().remove();
-                            inst.changeInfoCart(result);
-                        }
-
+                    } else { // if large cart, large shared 
                         if (typeCart == "shared-cart-large") {
                             elementClick.parents('tr').first().remove();
                             cartHelper.SetSharedCartReload(result.data.CountItems);
+                        } else {
+                            elementClick.parents('.product-tile-list__item').first().remove();
+                            inst.changeInfoCart(result);
                         }
                     }
                 }
@@ -99,6 +96,7 @@
                 feather.replace();
                 var dropdown = new Dropdown(container);
                 dropdown.Init();
+                notification.Success("Success");
             })
             .catch(function (error) {
                 notification.Error(error);
@@ -217,14 +215,14 @@
         }
 
         $(selector).find('.jsChangeSizeVariantLargeCart').each(function (i, e) {
-            $(e).find('input').first().change(function () {
+            $(e).change(function () {
                 var parent = $(e).parents('.product-tile-list__item').first();
                 var variantInfo = $(parent).find('.currentVariantInfo').first();
                 var data = {
                     Code: variantInfo.val(),
                     Size: variantInfo.attr('size'),
                     Quantity: variantInfo.attr('quantity'),
-                    NewSize: $(e).find('input:checked').val(),
+                    NewSize: $(e).val(),
                     ShipmentId: variantInfo.attr('shipmentId'),
                     RequestFrom: "changeSizeItem"
                 };
@@ -262,7 +260,7 @@
                     else {
                         if (confirm("Are you sure delete this item?")) {
                             var elementDelete = $(e).parents('.product-tile-list__item').first().find('.jsRemoveCartItem').first();
-                            inst.removeItem('/defaultcart/RemoveCartItem', elementDelete, "#cartItemsId");
+                            inst.removeItem('/defaultcart/RemoveCartItem', elementDelete, "large-cart");
                         }
                     }
                 }

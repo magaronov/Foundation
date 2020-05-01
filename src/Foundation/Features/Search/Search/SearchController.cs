@@ -1,5 +1,6 @@
 ﻿using EPiServer;
 using EPiServer.Core;
+using EPiServer.Tracking.PageView;
 using EPiServer.Web.Mvc;
 using EPiServer.Web.Mvc.Html;
 using Foundation.Cms.Pages;
@@ -54,6 +55,7 @@ namespace Foundation.Features.Search
 
         [ValidateInput(false)]
         [AcceptVerbs(HttpVerbs.Get | HttpVerbs.Post)]
+        [PageViewTracking]
         public async Task<ActionResult> Index(SearchResultPage currentPage, CommerceFilterOptionViewModel filterOptions)
         {
             if (filterOptions == null)
@@ -106,7 +108,8 @@ namespace Foundation.Features.Search
                     Q = filterOptions.Q,
                     PageSize = 5,
                     Page = filterOptions.SearchContent ? filterOptions.Page : 1,
-                    SectionFilter = filterOptions.SectionFilter
+                    SectionFilter = filterOptions.SectionFilter,
+                    IncludeImagesContent = startPage.IncludeImagesInContentsSearchResults
                 });
             }
 
@@ -171,6 +174,7 @@ namespace Foundation.Features.Search
                     Q = search,
                     PageSize = 5,
                     Page = 1,
+                    IncludeImagesContent = startPage.IncludeImagesInContentsSearchResults
                 });
                 model.ContentSearchResult = contentResult;
                 contentCount = contentResult?.Hits.Count() ?? 0;

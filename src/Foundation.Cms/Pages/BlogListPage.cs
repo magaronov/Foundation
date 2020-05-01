@@ -56,6 +56,14 @@ namespace Foundation.Cms.Pages
         [SelectOne(SelectionFactoryType = typeof(PreviewOptionSelectionFactory))]
         public virtual string PreviewOption { get; set; }
 
+        [Display(Name = "Overlay color (hex or rgba)", Description = "Apply for Card template", GroupName = CmsTabNames.BlogList, Order = 100)]
+        [ClientEditor(ClientEditingClass = "foundation/editors/ColorPicker")]
+        public virtual string OverlayColor { get; set; }
+
+        [Display(Name = "Overlay text color (hex or rgba)", Description = "Apply for Card template", GroupName = CmsTabNames.BlogList, Order = 110)]
+        [ClientEditor(ClientEditingClass = "foundation/editors/ColorPicker")]
+        public virtual string OverlayTextColor { get; set; }
+
         public override void SetDefaultValues(ContentType contentType)
         {
             base.SetDefaultValues(contentType);
@@ -66,6 +74,8 @@ namespace Foundation.Cms.Pages
             IncludeTeaserText = true;
             IncludePublishDate = true;
             SortOrder = FilterSortOrder.PublishedDescending;
+            OverlayColor = "rgba(34,61,107,.95)";
+            OverlayTextColor = "#ffffff";
         }
     }
 }

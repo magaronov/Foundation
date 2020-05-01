@@ -5,8 +5,7 @@
         $("input[name='submitsocialrating']").removeClass("btn disabled");
         $("input[name='submitsocialrating']").addClass("btn");
     }</script>
-
-<div class="border">
+<div style="background-color: @Model.CurrentBlock.BackgroundColor; opacity:@Model.CurrentBlock.BlockOpacity;" class="row @(Model.CurrentBlock.Padding + " " + Model.CurrentBlock.Margin)">
     @if (Model.ShowHeading)
     {
         <h2 @Html.EditAttributes(x => x.Heading)>@Model.Heading</h2>
@@ -19,7 +18,7 @@
         <div style="color:@messageStyle">@message.Body</div>
     }
 
-    <div style="margin-top:0.5em">
+    <div class="col-12" style="margin-top:0.5em">
         @if (this.User.Identity.IsAuthenticated && Model.IsMemberOfGroup)
         {
             if (Model.CurrentRating.HasValue)

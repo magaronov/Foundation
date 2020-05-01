@@ -1,6 +1,4 @@
 ﻿using EPiServer.Core;
-using EPiServer.Framework.DataAnnotations;
-using EPiServer.Framework.Web;
 using EPiServer.Web.Mvc;
 using Foundation.Cms.Media;
 using System.Web.Mvc;
@@ -18,6 +16,10 @@ namespace Foundation.Features.Media
             else if (currentContent is ImageMediaData)
             {
                 return PartialView("~/Features/Media/ImageMedia.cshtml", currentContent);
+            }
+            else if (currentContent is FoundationPdfFile)
+            {
+                return PartialView("~/Features/Media/PdfFile.cshtml", currentContent as FoundationPdfFile);
             }
             else
             {

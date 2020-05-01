@@ -19,6 +19,7 @@ namespace Foundation.Cms.ViewModels
         public string PreviewOption { get; set; }
         public CategoryList Category { get; set; }
         public List<KeyValuePair<string, string>> BreadCrumbs { get; set; }
+        public bool Flip { get; set; }
 
         public class TagItem
         {

@@ -26,7 +26,6 @@ namespace Foundation.Commerce.Marketing
                 CheckMultiple(content, promotion);
             }
         }
-        
 
         private void CheckMultiple(PromotionData promotion, PromotionInformation promotionInformation)
         {

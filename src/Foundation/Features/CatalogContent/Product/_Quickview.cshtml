@@ -19,52 +19,36 @@
                 {
                     <span class="price__discount">@Model.DiscountedPrice.ToString()</span>
                 }
+                @if (Model.HasSaleCode)
+                {
+                    @Html.Partial("_WarningHasSaleCode", null)
+                }
 
             </div>
         </div>
         <div class="row">
             <div class="col-lg-6 col-md-12 col-sm-12">
                 <label class="title">@Html.TranslateFallback("/ProductPage/VariationSelection/Color", "Colors")</label>
-                <div class="dropdown">
-                    <div class="dropdown__selected">
-                        <span class="current">@Model.Color</span>
-                        <span><i data-feather="chevron-down"></i></span>
-                    </div>
-                    <ul class="dropdown__group">
-                        @foreach (var color in Model.Colors)
-                        {
-                            <li class="dropdown__item">
-                                <label class="checkbox jsSelectColorSize" type="color">
-                                    @color.Value
-                                    <input type="radio" name="color" value="@color.Value" @(Model.Color == color.Value ? "checked=checked" : "") />
-                                    <span class="radio"></span>
-                                </label>
-                            </li>
-                        }
-
-                    </ul>
-                </div>
+                @{
+                    var colors = new List<KeyValuePair<string, string>>();
+                    foreach (var c in Model.Colors)
+                    {
+                        colors.Add(new KeyValuePair<string, string>(c.Text, c.Value));
+                    }
+                }
+                @Helpers.RenderDropdown(colors, Model.Color, "jsSelectColorSize", "color")
             </div>
+
             <div class="col-lg-6 col-md-12 col-sm-12">
                 <label class="title">@Html.TranslateFallback("/ProductPage/VariationSelection/Size", "Sizes")</label>
-                <div class="dropdown">
-                    <div class="dropdown__selected">
-                        <span class="current">@Model.Size</span>
-                        <span><i data-feather="chevron-down"></i></span>
-                    </div>
-                    <ul class="dropdown__group">
-                        @foreach (var size in Model.Sizes)
-                        {
-                            <li class="dropdown__item">
-                                <label class="checkbox  jsSelectColorSize" type="size">
-                                    @size.Value
-                                    <input type="radio" name="size" value="@size.Value" @(Model.Size == size.Value ? "checked=checked" : "") />
-                                    <span class="radio"></span>
-                                </label>
-                            </li>
-                        }
-                    </ul>
-                </div>
+                @{
+                    var sizes = new List<KeyValuePair<string, string>>();
+                    foreach (var c in Model.Sizes)
+                    {
+                        sizes.Add(new KeyValuePair<string, string>(c.Text + (c.Disabled ? " (out of stock)" : ""), c.Value));
+                    }
+                }
+                @Helpers.RenderDropdown(sizes, Model.Size, "jsSelectColorSize", "size")
             </div>
         </div>
 
@@ -73,10 +57,19 @@
         {
             <div class="row">
                 <div class="col">
-                    <button class="button-black--icon addToCart" data="@Model.Variant.Code" qty="1" store="delivery" selectedStore=""><i data-feather="shopping-cart"></i> Add to cart</button>
+                    @if (Model.IsAvailable)
+                    {
+                        <button class="button-black--icon addToCart" data="@Model.Variant.Code" qty="1" store="delivery" selectedStore=""
+                                style="margin-right: 10px;"><i data-feather="shopping-cart"></i> Add to cart</button>
+                    }
+                    else
+                    {
+                        <button class="button-black--icon" style="margin-right: 10px;" disabled><i data-feather="shopping-cart"></i> Add to cart</button>
+                    }
+                    
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <button class="button-transparent-black--icon addToWishlist" style="margin-left: 10px;" data="@Model.Variant.Code"><i data-feather="heart"></i> Add to Wishlist</button>
+                        <button class="button-transparent-black--icon addToWishlist" data="@Model.Variant.Code"><i data-feather="heart"></i> Add to Wishlist</button>
                     }
                 </div>
             </div>
@@ -85,7 +78,15 @@
         {
             <div class="row">
                 <div class="col-12">
-                    <button class="button-black--icon addToCart" data="@Model.Variant.Code" qty="1" store="delivery" selectedStore=""><i data-feather="shopping-cart"></i> Add to cart</button>
+                    @if (Model.IsAvailable)
+                    {
+                        <button class="button-black--icon addToCart" data="@Model.Variant.Code" qty="1" store="delivery" selectedStore=""><i data-feather="shopping-cart"></i> Add to cart</button>
+                    }
+                    else
+                    {
+                        <button class="button-black--icon" disabled><i data-feather="shopping-cart"></i> Add to cart</button>
+                    }
+
                     @if (User.Identity.IsAuthenticated)
                     {
                         <button class="button-transparent-black--icon addToWishlist" data="@Model.Variant.Code"><i data-feather="heart"></i> Add to Wishlist</button>

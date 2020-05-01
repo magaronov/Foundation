@@ -36,6 +36,8 @@
                 </picture>
                 <div class="hero__gradient">
                 </div>
+                <div style="position: absolute;left: 0;top: 0;height: 100%;width: 100%;background:@Model.CurrentContent.BackgroundColor;opacity:@(Model.CurrentContent.BackgroundOpacity?.ToString("N") ?? "1");">
+                </div>
             }
             else if (!ContentReference.IsNullOrEmpty(Model.CurrentContent.PageImage))
             {
@@ -45,15 +47,17 @@
                 </picture>
                 <div class="hero__gradient">
                 </div>
+                <div style="position: absolute;left: 0;top: 0;height: 100%;width: 100%;background:@Model.CurrentContent.BackgroundColor;opacity:@(Model.CurrentContent.BackgroundOpacity?.ToString("N") ?? "1");">
+                </div>
             }
         </div>
         <div class="standard-page__box @boxClass">
-            <div class="article__title">
+            <div class="article__title" style="">
                 @if (!Model.CategoryName.IsEmpty())
                 {
-                    <h4 style="color: @Model.CurrentContent.PageTitleColor;">@Model.CategoryName</h4>
+                    <h4 style="color: @Model.CurrentContent.TitleColor">@Model.CategoryName</h4>
                 }
-                <h1 style="color: @Model.CurrentContent.PageTitleColor;">@Html.PropertyFor(x => x.CurrentContent.Name)</h1>
+                <h1 style="color: @Model.CurrentContent.TitleColor">@Html.PropertyFor(x => x.CurrentContent.Name)</h1>
             </div>
             <div class="standard-page__content">
                 @if ((Model.CurrentContent.MainBody != null && !Model.CurrentContent.MainBody.IsEmpty) || PageEditing.PageIsInEditMode)

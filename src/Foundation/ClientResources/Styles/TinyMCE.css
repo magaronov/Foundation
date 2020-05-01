@@ -1,6 +1,6 @@
 ﻿body {
     color: #000;
-    font-size: 14px;
+    font-size: 0.875rem;
     font-family: "Roboto", "Arial", sans-serif;
     line-height: 1.5;
 }
@@ -54,6 +54,7 @@ a:hover {
 }
 
 pre {
+    font-family: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
     display: block;
     font-size: 87.5%;
     color: #212529;

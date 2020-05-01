@@ -1,4 +1,3 @@
-using EPiServer;
 using EPiServer.Commerce.Order;
 using EPiServer.Core;
 using EPiServer.Framework.Localization;
@@ -23,7 +22,6 @@ namespace Foundation.Commerce.Order.ViewModelFactories
         private readonly LocalizationService _localizationService;
         private readonly PaymentMethodViewModelFactory _paymentMethodViewModelFactory;
         private readonly IAddressBookService _addressBookService;
-        private readonly IContentLoader _contentLoader;
         private readonly UrlResolver _urlResolver;
         private readonly ServiceAccessor<HttpContextBase> _httpContextAccessor;
         private readonly ShipmentViewModelFactory _shipmentViewModelFactory;
@@ -36,7 +34,6 @@ namespace Foundation.Commerce.Order.ViewModelFactories
             LocalizationService localizationService,
             PaymentMethodViewModelFactory paymentMethodViewModelFactory,
             IAddressBookService addressBookService,
-            IContentLoader contentLoader,
             UrlResolver urlResolver,
             ServiceAccessor<HttpContextBase> httpContextAccessor,
             ShipmentViewModelFactory shipmentViewModelFactory,
@@ -48,7 +45,6 @@ namespace Foundation.Commerce.Order.ViewModelFactories
             _localizationService = localizationService;
             _paymentMethodViewModelFactory = paymentMethodViewModelFactory;
             _addressBookService = addressBookService;
-            _contentLoader = contentLoader;
             _urlResolver = urlResolver;
             _httpContextAccessor = httpContextAccessor;
             _shipmentViewModelFactory = shipmentViewModelFactory;
@@ -192,11 +188,13 @@ namespace Foundation.Commerce.Order.ViewModelFactories
                             .FirstOrDefault(p => p.PaymentMethodId == viewModelPayment.PaymentMethodId)?.Amount ?? 0,
                         cart.Currency);
             }
+
             if (!cart.GetFirstForm().
                 Payments.Any())
             {
                 return;
             }
+
             var method = methodViewModels.FirstOrDefault(
                 x => x.PaymentMethodId == cart.GetFirstForm().
                          Payments.FirstOrDefault().
@@ -205,6 +203,7 @@ namespace Foundation.Commerce.Order.ViewModelFactories
             {
                 return;
             }
+
             viewModel.SelectedPayment = method.Description;
             var payment = cart.GetFirstForm().
                 Payments.FirstOrDefault();
@@ -246,6 +245,7 @@ namespace Foundation.Commerce.Order.ViewModelFactories
             {
                 return httpContext.Request.UrlReferrer.ToString();
             }
+
             return _urlResolver.GetUrl(ContentReference.StartPage);
         }
 

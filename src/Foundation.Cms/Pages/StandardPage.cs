@@ -16,13 +16,17 @@ namespace Foundation.Cms.Pages
     public class StandardPage : FoundationPageData
     {
         [CultureSpecific]
-        [UIHint(UIHint.Image)]
-        [Display(Name = "Page title color", GroupName = SystemTabNames.Content, Order = 203)]
-        public virtual string PageTitleColor { get; set; }
+        [ClientEditor(ClientEditingClass = "dijit/ColorPalette")]
+        [Display(Name = "Title color", GroupName = SystemTabNames.Content, Order = 203)]
+        public virtual string TitleColor
+        {
+            get { return this.GetPropertyValue(page => page.TitleColor) ?? "white"; }
+            set { this.SetPropertyValue(page => page.TitleColor, value); }
+        }
 
         [CultureSpecific]
         [UIHint(UIHint.Image)]
-        [Display(Name = "Background image", GroupName = SystemTabNames.Content, Order = 205)]
+        [Display(Name = "Background image", GroupName = SystemTabNames.Content, Order = 206)]
         public virtual ContentReference BackgroundImage { get; set; }
 
         [CultureSpecific]
@@ -37,12 +41,29 @@ namespace Foundation.Cms.Pages
             Order = 220)]
         public virtual string TopPaddingMode { get; set; }
 
+        [SelectOne(SelectionFactoryType = typeof(BackgroundColorSelectionFactory))]
+        [Display(Name = "Background color", GroupName = SystemTabNames.Content, Order = 204)]
+        public virtual string BackgroundColor
+        {
+            get { return this.GetPropertyValue(page => page.BackgroundColor) ?? "transparent"; }
+            set { this.SetPropertyValue(page => page.BackgroundColor, value); }
+        }
+
+        [Range(0, 1.0, ErrorMessage = "Opacity only allows value between 0 and 1")]
+        [Display(Name = "Background opacity (0 to 1)", GroupName = SystemTabNames.Content, Order = 205)]
+        public virtual double? BackgroundOpacity
+        {
+            get { return this.GetPropertyValue(page => page.BackgroundOpacity) ?? 1; }
+            set { this.SetPropertyValue(page => page.BackgroundOpacity, value); }
+        }
+
         public override void SetDefaultValues(ContentType contentType)
         {
             base.SetDefaultValues(contentType);
-
-            PageTitleColor = "white";
-            TopPaddingMode = FoundationStandardPageTopPaddingModeSelectionFactory.FoundationStandardPageTopPaddingModes.None;
+            BackgroundColor = "transparent";
+            BackgroundOpacity = 1;
+            TitleColor = "white";
+            TopPaddingMode = FoundationStandardPageTopPaddingModeSelectionFactory.FoundationStandardPageTopPaddingModes.Half;
         }
     }
 }

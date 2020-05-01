@@ -3,6 +3,7 @@ using EPiServer.Commerce.Catalog.DataAnnotations;
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
+using Foundation.Cms;
 using System.ComponentModel.DataAnnotations;
 
 namespace Foundation.Commerce.Models.Catalog
@@ -13,7 +14,7 @@ namespace Foundation.Commerce.Models.Catalog
         MetaClassName = "FashionBundle",
         Description = "Displays a bundle, which is collection of individual fashion variants.")]
     [ImageUrl("~/content/icons/pages/cms-icon-page-21.png")]
-    public class GenericBundle : BundleContent, IProductRecommendations
+    public class GenericBundle : BundleContent, IProductRecommendations, IFoundationContent
     {
         [Searchable]
         [CultureSpecific]
@@ -29,25 +30,36 @@ namespace Foundation.Commerce.Models.Catalog
         [Display(Name = "Long description", Order = 10)]
         public virtual XhtmlString LongDescription { get; set; }
 
-        [Display(Name = "On sale", Description = "Is on sale?", Order = 15)]
+        [Display(Name = "On sale", Order = 15)]
         public virtual bool OnSale { get; set; }
 
-        [Display(Name = "New arrival", Description = "Is on a new arrival?", Order = 20)]
+        [Display(Name = "New arrival", Order = 20)]
         public virtual bool NewArrival { get; set; }
 
         [CultureSpecific]
-        [Display(Name = "Content area", Description = "This will display the content area.", Order = 25)]
+        [Display(Name = "Content area", Order = 25)]
         public virtual ContentArea ContentArea { get; set; }
 
         [CultureSpecific]
         [Display(Name = "Associations title",
-            Description = "This is title of the Associations tab.",
             Order = 30)]
         public virtual string AssociationsTitle { get; set; }
 
         [CultureSpecific]
-        [Display(Name = "Show recommendations", Description = "This will determine whether or not to show recommendations.", Order = 35)]
+        [Display(Name = "Show recommendations", Order = 35)]
         public virtual bool ShowRecommendations { get; set; }
+
+        #region Implement IFoundationContent
+
+        [CultureSpecific]
+        [Display(Name = "Hide site header", GroupName = CmsTabNames.Settings, Order = 100)]
+        public virtual bool HideSiteHeader { get; set; }
+
+        [CultureSpecific]
+        [Display(Name = "Hide site footer", GroupName = CmsTabNames.Settings, Order = 200)]
+        public virtual bool HideSiteFooter { get; set; }
+
+        #endregion
 
         public override void SetDefaultValues(ContentType contentType)
         {
